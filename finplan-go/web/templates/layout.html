@@ -1,0 +1,19 @@
+{{define "layout"}}
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Title}} · ФинПлан</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">₽</span><span>фин<span class="brand-light">план</span></span></a>
+    <nav><a href="/">Обзор</a><a href="/expenses/new" class="nav-cta">Добавить трату <b>＋</b></a><a href="/about">О проекте</a></nav>
+  </header>
+  <main class="page">{{template "content" .}}</main>
+  <footer>ФинПлан · учебный проект на Go <span>Личные расходы под контролем</span></footer>
+</body>
+</html>
+{{end}}

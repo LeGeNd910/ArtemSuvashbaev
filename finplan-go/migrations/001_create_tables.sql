@@ -1,0 +1,16 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    mark TEXT NOT NULL DEFAULT '•'
+);
+
+CREATE TABLE IF NOT EXISTS expenses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    amount REAL NOT NULL CHECK (amount > 0),
+    description TEXT NOT NULL,
+    spent_on TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);

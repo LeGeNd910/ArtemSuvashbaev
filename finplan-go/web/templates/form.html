@@ -1,0 +1,17 @@
+{{define "content"}}
+<div class="form-wrap">
+  <a class="back-link" href="/">← Назад к расходам</a>
+  <p class="eyebrow">УПРАВЛЕНИЕ ЗАПИСЯМИ</p><h1>{{.Title}}</h1>
+  <p class="subtext">Заполни основные данные о покупке или платеже.</p>
+  {{if .Error}}<div class="alert">{{.Error}}</div>{{end}}
+  <form class="entry-form" method="POST" action="{{if .IsEdit}}/expenses/{{.Expense.ID}}/update{{else}}/expenses{{end}}">
+    <label>На что потрачено?<input name="description" type="text" maxlength="100" placeholder="Например, обед в кафе" value="{{.Expense.Description}}" required></label>
+    <div class="form-grid">
+      <label>Сумма, ₽<input name="amount" type="number" min="0.01" step="0.01" placeholder="0,00" value="{{if .Expense.Amount}}{{money .Expense.Amount}}{{end}}" required></label>
+      <label>Дата покупки<input name="date" type="date" value="{{.Expense.Date}}" required></label>
+    </div>
+    <label>Категория<select name="category_id" required><option value="">Выбери категорию</option>{{range .Categories}}<option value="{{.ID}}" {{if eq .ID $.Expense.CategoryID}}selected{{end}}>{{.Mark}} {{.Name}}</option>{{end}}</select></label>
+    <div class="form-buttons"><button class="button" type="submit">{{if .IsEdit}}Сохранить изменения{{else}}Сохранить расход{{end}}</button><a class="cancel" href="/">Отмена</a></div>
+  </form>
+</div>
+{{end}}

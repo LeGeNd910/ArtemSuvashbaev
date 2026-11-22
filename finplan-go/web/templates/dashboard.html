@@ -1,0 +1,32 @@
+{{define "content"}}
+<section class="intro">
+  <div><p class="eyebrow">ЛИЧНЫЕ ФИНАНСЫ / ОБЗОР</p><h1>Куда уходят<br><em>деньги?</em></h1><p class="subtext">Все ежедневные траты в одном месте. Добавляй записи и следи за расходами.</p></div>
+  <div class="intro-art"><div class="art-circle"></div><div class="receipt"><span>ИТОГО</span><strong>₽</strong><small>планируй разумно</small></div><div class="art-dot">✦</div></div>
+</section>
+<section class="summary">
+  <article class="summary-card total"><span>Сумма по выборке</span><strong>{{money .Total}} ₽</strong><small>по отображаемым записям</small></article>
+  <article class="summary-card"><span>Количество операций</span><strong>{{.Count}}</strong><small>записей в списке</small></article>
+  <a class="summary-card add-card" href="/expenses/new"><span>Новая запись</span><strong>＋</strong><small>Добавить расход</small></a>
+</section>
+<section class="section-head"><div><p class="eyebrow">ИСТОРИЯ</p><h2>Мои расходы</h2></div><span class="record-count">{{.Count}} записей</span></section>
+<form class="filters" method="GET" action="/">
+  <label>Категория<select name="category"><option value="">Все категории</option>{{range .Categories}}<option value="{{.ID}}" {{if eq (printf "%d" .ID) $.SelectedCat}}selected{{end}}>{{.Mark}} {{.Name}}</option>{{end}}</select></label>
+  <label>Период с<input type="date" name="from" value="{{.DateFrom}}"></label>
+  <label>Период по<input type="date" name="to" value="{{.DateTo}}"></label>
+  <button class="button dark" type="submit">Применить</button><a class="reset" href="/">Сбросить</a>
+</form>
+{{if .Expenses}}
+<div class="expense-list">
+  {{range .Expenses}}
+  <article class="expense-row">
+    <div class="category-icon">{{.CategoryMark}}</div>
+    <div class="expense-info"><strong>{{.Description}}</strong><span>{{.CategoryName}} <i>·</i> {{.Date}}</span></div>
+    <strong class="expense-amount">−{{money .Amount}} ₽</strong>
+    <div class="row-actions"><a href="/expenses/{{.ID}}/edit" title="Изменить">Изменить</a><form method="POST" action="/expenses/{{.ID}}/delete" onsubmit="return confirm('Удалить эту запись?')"><button type="submit">Удалить</button></form></div>
+  </article>
+  {{end}}
+</div>
+{{else}}
+<div class="empty"><div class="empty-icon">＋</div><h3>Пока нет расходов</h3><p>Добавь первую запись — она появится здесь.</p><a class="button" href="/expenses/new">Добавить первую трату</a></div>
+{{end}}
+{{end}}
